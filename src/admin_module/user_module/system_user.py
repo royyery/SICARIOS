@@ -23,40 +23,40 @@ class SystemUser(Person):
 
     def set_birth_date(self, birth_date):
         """
-        set the birth_date of the user
-        :param birth_date:
-        :return:
+        Set the birth_date of the system user
+        :param birth_date: stores the system user birthdate
+        :return: none
         """
         self.birth_date = birth_date
 
     def set_address(self, address):
         """
-        set the address
-        :param address:
+        Set the system user address
+        :param address: store the system user adress
         :return: none
         """
         self.address = address
 
     def set_phone_number(self, number):
         """
-        set the user phone number(s)
-        :param number:
+        Set the user phone number(s)
+        :param number: keep the phone number
         :return: none
         """
         self.phone_number.append(number)
 
     def set_email(self, email):
         """
-        set user email
-        :param email:
-        :return:
+        set system user email
+        :param email: save the email address
+        :return: none
         """
         self.email = email
 
     def set_role(self, role):
         """
-        set the user role
-        :param role:
+        set the system user role
+        :param role: store the system user role
         :return: none
         """
         self.role = role

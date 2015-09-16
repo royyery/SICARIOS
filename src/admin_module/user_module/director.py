@@ -1,6 +1,7 @@
 __author__ = 'alex alvarez'
 
 from person import Person
+from utils.util import search_movie_in_filmography
 
 
 class Director(Person):
@@ -23,9 +24,15 @@ class Director(Person):
         """
         Add a movie that was directed by this director to filmography list
         :param movie: movie that was directed by this director
-        :return: none
+        :return: True if movie was added to director's filmography otherwise False
         """
-        self._filmography.append(movie)
+
+        if not search_movie_in_filmography(movie, self._filmography):
+            self._filmography.append(movie)
+            return True
+        else:
+            print("The movie \'%s\' already exists in director filmography" % movie.title)
+            return False
 
     def get_filmography_list(self):
         """
@@ -40,4 +47,4 @@ class Director(Person):
         :param movie:
         :return:a movie
         """
-        return self._filmography.index(movie)
+        return filter(lambda x: x.code == movie.code, self._filmography)
