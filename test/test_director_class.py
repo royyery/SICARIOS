@@ -62,6 +62,22 @@ class TestDirector(unittest.TestCase):
         director.add_movie_to_filmography(movie)
         self.assertFalse(director.add_movie_to_filmography(movie))
 
+    def test_searching_movie_in_filmography_list_by_movie_title(self):
+        title = "Jaws"
+        director = Director("Steven", "Spielberg");
+        movie = Movie("J001", title)
+        director.add_movie_to_filmography(movie)
+        existingMovie = director.get_movie({'title': title})
+        self.assertEqual(existingMovie.title, title)
+
+    def test_searching_movie_in_filmography_list_by_movie_code(self):
+        code = "J001"
+        director = Director("Steven", "Spielberg");
+        movie = Movie(code, "Jaws")
+        director.add_movie_to_filmography(movie)
+        existingMovie = director.get_movie({'code': code})
+        self.assertEqual(existingMovie.title, code)
+
 
 if __name__ == "__main__":
     unittest.main();

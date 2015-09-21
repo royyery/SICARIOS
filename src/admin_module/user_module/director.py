@@ -14,20 +14,20 @@ class Director(Person):
     def __init__(self, first_name, last_name):
         """
         Extends from Person.__init__() to store common data of a person
-
+        first_name and last_name are string type and storep the first name and last name of a director
         """
         Person.__init__(self, first_name, last_name)
         self._filmography = []
-        """Store movies in a list"""
+        """Store the movies instances in filmography list"""
 
     def add_movie_to_filmography(self, movie):
         """
-        Add a movie that was directed by this director to filmography list
-        :param movie: movie that was directed by this director
+        Adds a movie object to filmography list, the movies that were directed by director
+        :param movie: Movie instance that will stored in director's filmography list
         :return: True if movie was added to director's filmography otherwise False
         """
 
-        if not search_movie_in_filmography(movie, self._filmography):
+        if not self.get_movie({'code': movie.code}):
             self._filmography.append(movie)
             return True
         else:
@@ -36,15 +36,16 @@ class Director(Person):
 
     def get_filmography_list(self):
         """
-        Get the movies that were directed by this director
-        :return: movies list in _.filmography list
+        Returns the filmography list with movie objects that were directed by director
+        :return: The filmography list that stores the movies directed by director
         """
         return self._filmographhy
 
-    def get_movie(self, movie):
+    def get_movie(self, criteria):
         """
-        Return a movie from filmography list
-        :param movie:
-        :return:a movie
+        Returns a movie object from filmography list
+        :param criteria: dictionary type, used to search a movie in filmography list by code or title
+        :return: a movie object that meets with search criteria, empty list otherwise
         """
-        return filter(lambda x: x.code == movie.code, self._filmography)
+
+        return search_movie_in_filmography(criteria, self._filmography)
