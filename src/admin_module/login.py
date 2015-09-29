@@ -2,6 +2,7 @@ __author__ = 'aj'
 
 from utils.util import get_user_from_xml_file
 
+
 class Login(object):
     """
     Create an instance of Login class
@@ -14,13 +15,23 @@ class Login(object):
         """
         :param credentials: dictionary that will store the system user credentials: account name and password
         :param _output_label: dictionary that will store the output labels displayed in console to retrieve system user credentials
+        :param session: list of tuples that keeps data from an existing user in database that match with credentials entered from console
         :return: none
         """
         self.credentials = {"account": None, "password": None}
         self._output_label = {'account': "Insert user account: ",
                               'password': "Insert your password: "}
+        self.session = ()
 
-    def is_text_empty(self, entry):
+    def init_session(self):
+        while True:
+            self.get_user_credentials()
+            if self.authenticate_credentials():
+                print "Welcome %s " % self.session[0][1]
+                break
+
+
+    def _is_text_empty(self, entry):
         """
         Validate if text in entry parameter is empty
         :param entry: string type tha will be validated in order to know if is empty ("")
@@ -39,16 +50,16 @@ class Login(object):
             while not entry_saved:
                 """ display same label while the user entering empty string """
                 entry = raw_input(self._output_label[key])
-                entry_saved = self.save_entry(entry, key)
+                entry_saved = self._save_entry(entry, key)
 
-    def save_entry(self, entry, key):
+    def _save_entry(self, entry, key):
         """
         Will save the entry string in the _credentials dictionary in the 'key' position
         :param entry: string that will be saved in the _credentials dictionary
         :param key: string that indicates the position for the dictionary
         :return: True if entry was saved in _credentials dictionary, False otherwise
         """
-        if self.is_text_empty(entry):
+        if self._is_text_empty(entry):
             """ validates if string in text is empty """
             return False
         self.credentials[key] = entry
@@ -56,13 +67,49 @@ class Login(object):
 
     def authenticate_credentials(self):
         """
-        Will return True if credentials match with user data obtained from get_user_from_file method
-        :return: True if user account and password obtained from users.xml file matchs with entered credentials, False otherwise
+        Will return True if credentials matches with user data obtained from get_user_from_file method
+        :return: True if user account and password obtained from users.xml file matches with entered credentials, False otherwise
         """
-        existing_user = get_user_from_xml_file(self.credentials['account'])
+        user = get_user_from_xml_file(self.credentials['account'])
         """ get an user from users.xml file that match with stored credentials """
-        if existing_user is not None and existing_user[1][1] == self.credentials['password']:
+        if not self.validate_user_is_null(user):
+            if user[1][1] == self.credentials['password']:
+                self.set_session(user)
             return True
+        return False
+
+    def validate_user_is_null(self, user):
+        """
+        validate if user variable is None
+        :param user:
+        :return: True is user is equals None, false otherwise
+        """
+        if user is None:
+            print "Entered user account is not valid"
+            return True
+        return False
+
+    def set_session(self, user):
+        """
+        Store user variable in attribute session
+        :param user: list of tuples that stores data of a user retrieved from database
+        :return: None
+        """
+        self.session = user
+
+    def get_session(self):
+        """
+        Will return session variable with user data that matches with database and data entered by console
+        :return: a list of tuples that store user data for the session
+        """
+        return self.session
+
+    def get_session_user_role(self):
+        """
+        return the user role stored in the session
+        :return: user role
+        """
+        return self.session[2][1]
 
     def print_credentials(self):
         """
@@ -71,5 +118,3 @@ class Login(object):
         """
         for key in self._output_label:
             print self.credentials[key]
-
-

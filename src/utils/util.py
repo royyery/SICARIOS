@@ -24,7 +24,7 @@ def get_user_from_xml_file(account):
     user_data_file = minidom.parse('../db/entities/users.xml')
     """ get user data from users.xml file"""
     users_data = user_data_file.getElementsByTagName('User')
-    """ get uses data """
+    """ get users data """
 
     for user in users_data:
         if user.attributes['account'].value == account:
