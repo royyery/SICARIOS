@@ -1,6 +1,8 @@
 __author__ = 'aj'
 
-from utils.util import get_user_from_xml_file
+import sys
+sys.path.append("../")
+from utils.util import *
 
 
 class Login(object):
@@ -30,15 +32,6 @@ class Login(object):
                 print "Welcome %s " % self.session[0][1]
                 break
 
-
-    def _is_text_empty(self, entry):
-        """
-        Validate if text in entry parameter is empty
-        :param entry: string type tha will be validated in order to know if is empty ("")
-        :return: return True if "entry" is "", False otherwise
-        """
-        return entry.strip() == ""
-
     def get_user_credentials(self):
         """
         Retrieve system user credentials from console
@@ -59,7 +52,7 @@ class Login(object):
         :param key: string that indicates the position for the dictionary
         :return: True if entry was saved in _credentials dictionary, False otherwise
         """
-        if self._is_text_empty(entry):
+        if is_text_empty(entry):
             """ validates if string in text is empty """
             return False
         self.credentials[key] = entry
@@ -72,26 +65,15 @@ class Login(object):
         """
         user = get_user_from_xml_file(self.credentials['account'])
         """ get an user from users.xml file that match with stored credentials """
-        if not self.validate_user_is_null(user):
+        if not validate_user_is_null(user):
             if user[1][1] == self.credentials['password']:
                 self.set_session(user)
             return True
         return False
 
-    def validate_user_is_null(self, user):
-        """
-        validate if user variable is None
-        :param user:
-        :return: True is user is equals None, false otherwise
-        """
-        if user is None:
-            print "Entered user account is not valid"
-            return True
-        return False
-
     def set_session(self, user):
         """
-        Store user variable in attribute session
+        Store user (list of tuples, e.g.: [(u'account', u'AdminUser'), (u'password', u'test123'), (u'role', u'Administrator')]) in attribute session
         :param user: list of tuples that stores data of a user retrieved from database
         :return: None
         """

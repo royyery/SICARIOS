@@ -1,5 +1,9 @@
 __author__ = 'aj'
 
+import sys
+
+sys.path.append("../")
+
 from xml.dom import minidom
 
 
@@ -31,3 +35,24 @@ def get_user_from_xml_file(account):
             return user.attributes.items()
             break
     return None
+
+
+def is_text_empty(entry):
+    """
+    Validate if text in entry parameter is empty
+    :param entry: string type tha will be validated in order to know if is empty ("")
+    :return: return True if "entry" is "", False otherwise
+    """
+    return entry.strip() == ""
+
+
+def validate_user_is_null(user):
+    """
+    validate if user variable is None
+    :param user: object that contains an user
+    :return: True is user is equals None, false otherwise
+    """
+    if user is None:
+        print "Entered user account is not valid"
+        return True
+    return False
