@@ -1,17 +1,16 @@
 from db.transactions.DBManager import DBManager
-
+import os
 __author__ = 'marcelo_garay'
 
 
 class TransactionManager(object):
-    db_name = "sicarios"
 
     def __init__(self):
         """
         Create connection with data base sqlite
         :return:
         """
-        self.conn = DBManager(self.db_name)
+        self.conn = DBManager()
 
     def get_users(self):
         """
@@ -19,6 +18,7 @@ class TransactionManager(object):
         :return:
         """
         for row in self.conn.query("select * from user"):
+            print type(row)
             print row
 
 
