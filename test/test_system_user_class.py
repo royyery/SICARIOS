@@ -1,6 +1,9 @@
 __author__ = 'alex alvarez'
 
 import unittest
+import sys
+sys.path.append("../")
+sys.path.append("../src/")
 from admin_module.user_module.system_user import SystemUser
 
 
@@ -27,4 +30,7 @@ class TestSystemUser(unittest.TestCase):
         first_name = "Alex"
         last_name = "Alvarez"
         system_user = SystemUser(first_name, last_name, "AJA-01")
-        self.assertEqual("AJA-01", system_user.get_code())
+        self.assertEqual("AJA-01", system_user.code)
+
+if __name__ == "__main__":
+    unittest.main()
