@@ -1,0 +1,18 @@
+## Directory-based project format:
+.idea/
+
+# User-specific stuff:
+# .idea/workspace.xml
+# .idea/tasks.xml
+# .idea/dictionaries
+
+# Covers JetBrains IDEs: IntelliJ, PyCharm
+*.iml
+
+# IntelliJ
+/out/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
