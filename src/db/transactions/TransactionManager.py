@@ -6,11 +6,21 @@ __author__ = 'marcelo_garay'
 class TransactionManager(object):
     db_name = "sicarios"
 
-    def simple(self):
-        db = DBManager(self.db_name)
-        for row in db.query("select * from user"):
+    def __init__(self):
+        """
+        Create connection with data base sqlite
+        :return:
+        """
+        self.conn = DBManager(self.db_name)
+
+    def get_users(self):
+        """
+        Get list of users
+        :return:
+        """
+        for row in self.conn.query("select * from user"):
             print row
 
 
 if __name__ == "__main__":
-    TransactionManager().simple()
+    TransactionManager().get_users()
