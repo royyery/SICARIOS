@@ -2,6 +2,8 @@ __author__ = 'Roy Ortiz'
 
 import datetime
 from datetime import datetime
+from db.transactions.DBManager import DBManager
+
 
 class Membership(object):
     def __init__(self, type, percent_of_discount, start_date):
@@ -21,12 +23,17 @@ class Membership(object):
         """
         return self._type
 
-    def get_discount(self):
+    def get_discount(self, membership_type):
         """
         Returns the percentage of discount according the membership type
         :return: the percentage from 0 to 100
         """
-        return self._percent_of_discount
+        conn = DBManager()
+        discount = 0
+        execution_query = "select percent_discount from membership where type='" + membership_type + "'"
+        for row in conn.query(execution_query):
+            discount = row[0]
+        return discount
 
     def get_start_date(self):
         """
@@ -42,5 +49,20 @@ class Membership(object):
         """
         end_date = start_date + datetime.timedelta(6*365/12)
         return end_date
+
+    def save_membership(self):
+        """
+        insert the new membership to database
+        :return:
+        """
+        conn = DBManager()
+        type = self.get_type()
+        percent = str(self._percent_of_discount)
+        execution_query = "insert into membership values('" + type + "'," + percent + ")"
+        conn.query(execution_query)
+
+
+
+
 
 
